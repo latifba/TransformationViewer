@@ -1,0 +1,126 @@
+<html>
+  <head>
+
+    <script id="vertex-shader" type="x-shader/x-vertex" >
+      precision mediump float;
+
+      attribute vec4 aPosition;
+      attribute vec3 aBC;
+
+      uniform mat4 uTransMat, uWorld, uCamera, uProject;
+
+      varying vec3 vBC;
+
+      void main() {
+
+          gl_Position = uProject * uCamera * uWorld * uTransMat * aPosition;
+          vBC = aBC;
+      }
+    </script>
+
+    <script id="fragment-shader" type="x-shader/x-fragment">
+      #extension GL_OES_standard_derivatives : enable
+      precision mediump float;
+
+      varying vec3 vBC;
+
+      uniform vec4 uEdgeColor;
+
+      float edgeFactor(){
+          vec3 d = fwidth(vBC);
+          vec3 a3 = smoothstep(vec3(0.0), d*1.5, vBC);
+          return min(min(a3.x, a3.y), a3.z);
+      }
+
+      void main(){
+         vec4 tmp;
+         tmp = uEdgeColor;
+         tmp.a = (1.0-edgeFactor())*0.95;
+
+        gl_FragColor.rgb = mix(tmp.rgb, vec3(0.5), edgeFactor());
+        gl_FragColor.a = uEdgeColor.a;
+      }
+    </script>
+
+    <script type="text/javascript" src="../Common/webgl-utils.js"></script>
+    <script type="text/javascript" src="../Common/initShaders.js"></script>
+    <script type="text/javascript" src="../Common/MV.js"></script>
+
+    <script type="text/javascript" src="canvas.js"></script>
+    <script type="text/javascript" src="modelDisplay.js"></script>
+    <script type="text/javascript" src="SceneObject.js"></script>
+    <script type="text/javascript" src="fileParsers.js"></script>
+
+    <link rel="stylesheet" href="master.css">
+  </head>
+
+  <body>
+      <div id="wrapper">
+          <input id="file" type="file"><br/>
+
+          <div id="gl-canvas"></div>
+
+          <div id="transformation-list">
+              <h3>Final Matrix</h3>
+              <table id="final-matrix">
+                  <tr>
+                       <td>1</td>
+                       <td>0</td>
+                       <td>0</td>
+                       <td>0</td>
+                  </tr>
+                  <tr>
+                       <td>0</td>
+                       <td>1</td>
+                       <td>0</td>
+                       <td>0</td>
+                  </tr>
+                  <tr>
+                       <td>0</td>
+                       <td>0</td>
+                       <td>1</td>
+                       <td>0</td>
+                  </tr>
+                  <tr>
+                      <td>0</td>
+                      <td>0</td>
+                      <td>0</td>
+                      <td>1</td>
+                  </tr>
+              </table>
+               <div id="individual-matrices"></div>
+          </div>
+
+          <div id="transformation-add">
+              <div class="transformation">
+                  <h3>Scale</h3>
+                  <input id="scale-in" type="text" value="1" size="3">
+              </div>
+
+              <div class="transformation">
+                  <h3>Rotate</h3>
+                  <input id="rotate-in" type="text" value="0" size="3">
+                  <select id="rotate-dim-in">
+                      <option value="1,0,0">x</option>
+                      <option value="0,1,0">y</option>
+                      <option value="0,0,1">z</option>
+                  </select>
+              </div>
+
+              <div class="transformation">
+                  <h3>Translate</h3>
+                  <input id="translate-x-in" type="text" value="0" size="3">
+                  <input id="translate-y-in" type="text" value="0" size="3">
+                  <input id="translate-z-in" type="text" value="0" size="3">
+              </div>
+
+              <div id="btn-add" onclick="AddTransformation()">ADD</div>
+          </div>
+          <h3>Drag mouse to rotate object. Scroll to zoom in and out.</h3>
+      </div>
+  </body>
+
+  <script type="text/javascript" src="main.js"></script>
+  <script type="text/javascript" src="transformationUI.js"></script>
+
+</html>

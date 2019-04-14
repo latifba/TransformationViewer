@@ -1,0 +1,105 @@
+
+body {
+    font-family: Verdana, sans-serif;
+}
+
+#wrapper {
+    width: 90%;
+    margin: auto;
+}
+
+#gl-canvas {
+    margin: 0;
+    display: inline-block;
+    width: 49%;
+}
+
+#gl-canvas canvas {
+    width: 100%;
+}
+
+#transformation-list {
+    margin: 0;
+    display: inline-block;
+    width: 49%;
+}
+
+#individual-matrices {
+    overflow-y: scroll;
+    height: 250px;
+}
+
+.matrix, #final-matrix {
+    background-color: rgb(149, 180, 100);
+    color: #fff;
+    margin: 5px 0;
+    padding: 2px;
+    border-radius: 2px;
+    overflow: hidden;
+}
+
+.matrix {
+    display: inline-block;
+    width: 48%;
+    margin: 3px;
+}
+
+.matrix h3 {
+    font-size: 12px;
+    text-align: center;
+    margin: 5px 0;
+    padding: 5px 0;
+    border-bottom: solid thin #fff;
+}
+
+#transformation-list h3 {
+    display: inline-block;
+    padding: 5px;
+    color: #fff;
+    background-color: rgb(149, 180, 100);
+    border-bottom: solid thin #fff;
+}
+
+.matrix input {
+    margin: 2px;
+    background-color: #95b464;
+    color: #fff;
+    font-size: 12pt;
+    font-weight: bold;
+    border: solid thin #fff;
+}
+
+td {
+    padding: 5px;
+    font-size: 12px;
+}
+
+#transformation-add {
+    display: inline-block;
+    width: 100%;
+    padding: 15px;
+    background-color: rgb(149, 180, 100);
+    color: #fff;
+}
+
+.transformation {
+    display: inline-block;
+    text-align: center;
+    margin: 5px 20px;
+}
+
+#btn-add {
+    display: inline-block;
+    margin: 2px 0;
+    float: right;
+    color: #fff;
+    border-left: solid thin #fff;
+    padding: 15px;
+    font-size: 64px;
+    font-weight: bold;
+}
+
+#btn-add:hover {
+    cursor: pointer;
+    text-decoration: underline;
+}
