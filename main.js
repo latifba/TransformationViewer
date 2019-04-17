@@ -17,10 +17,14 @@ let copyText = document.getElementById('JSON');
 // input object file element
 let fileInput = document.getElementById('file');
 
-//
-let obj = sceneObjects[0]
-let infoArr = []
+// matrix divs
+let transList = document.getElementById('individual-matrices')
+let finalMatrix = document.getElementById('final-matrix')
 
+let obj = sceneObjects[0] // object being transformed
+let infoArr = [] // stores transformation info corresponds to obj.transMats
+
+// returns axis object to draw
 function CreateAxis() {
     let lines = {
         Triangles: [[1,0,0], [-1,0,0], [0,1,0], [0,-1,0], [0,0,1], [0,0,-1]],
@@ -86,12 +90,12 @@ fileInput.addEventListener("change", function(e){
   reader.onload = function() { // when the file is loaded
     let fileName = fileInput.files[0].name; // file name w/ extension
     let model = LoadModelFile(fileName, reader.result); // parse file
-    sceneObjects[0] = MakeSceneObj(model);
+    sceneObjects[0] = MakeSceneObj(model); // reset obj
     obj = sceneObjects[0];
-    infoArr = [];
+    infoArr = []; // clear infoArr
     UpdateFinalMatrix();
-    DoRedisplay(canvas, sceneObjects);
-    DoRedisplay(canvas, lineObjects, "LINES");
+    DoRedisplay(canvas, sceneObjects); // display obj
+    DoRedisplay(canvas, lineObjects, "LINES"); // display axis
   }
 
   reader.readAsText(fileInput.files[0]);
@@ -119,6 +123,7 @@ function DoRedisplay(canvas, objects, type) {
 };
 
 function MakeScene(objectList) {
+    // setup axis
     let axisModel = new ModelDisplay(canvas, CreateAxis())
     let axisObj = new SceneObject(canvas, axisModel)
     axisObj.Color([1,0,0,1])
@@ -129,6 +134,7 @@ function MakeScene(objectList) {
     let x = LoadModelFile("X.json")
     let y = LoadModelFile("Y.json")
 
+    // create obj and the axis label
     let dragonObj = MakeSceneObj(dragon)
     let xObj = MakeSceneObj(x)
     let yObj = MakeSceneObj(y)
